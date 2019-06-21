@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-
+import ServerList from './components/ServerList/ServerList';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
@@ -49,12 +49,20 @@ export default class App extends React.Component {
     }
   };
 
+  onDelete = id => {
+    const { AllServers } = this.state;
+    const serversAfterDelete = AllServers.filter(server => server.id !== id);
+    this.setState({
+      AllServers: serversAfterDelete
+    });
+  };
+
   render() {
     const { AllServers } = this.state;
 
     return (
       <Container className=' App'>
-        <h1>Servers list</h1>
+        <ServerList onDelete={this.onDelete} AllServers={AllServers} />
       </Container>
     );
   }
