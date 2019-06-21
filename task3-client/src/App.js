@@ -1,26 +1,61 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
-export default App;
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      AllServers: [],
+      AllHostings: []
+    };
+  }
+
+  async componentDidMount() {
+    try {
+      await this.getAllServers();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  getAllServers = async () => {
+    try {
+      await fetch(`http://localhost:4000/servers`)
+        .then(response => response.json())
+        .then(AllServers => {
+          this.setState({ AllServers });
+          console.log(this.state);
+        });
+      this.getAllhostings();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  getAllhostings = async () => {
+    try {
+      await fetch(`http://localhost:4000/hosting`)
+        .then(response => response.json())
+        .then(AllHostings => {
+          this.setState({ AllHostings });
+          console.log(this.state);
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  render() {
+    const { AllServers } = this.state;
+
+    return (
+      <Container className=' App'>
+        <h1>Servers list</h1>
+      </Container>
+    );
+  }
+}
