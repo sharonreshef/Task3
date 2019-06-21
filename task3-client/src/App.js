@@ -4,13 +4,16 @@ import ServerList from './components/ServerList/ServerList';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
+import NewServer from './components/NewServer/NewServer';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       AllServers: [],
-      AllHostings: []
+      AllHostings: [],
+      hostingNames: []
     };
   }
 
@@ -28,7 +31,6 @@ export default class App extends React.Component {
         .then(response => response.json())
         .then(AllServers => {
           this.setState({ AllServers });
-          console.log(this.state);
         });
       this.getAllhostings();
     } catch (e) {
@@ -42,7 +44,10 @@ export default class App extends React.Component {
         .then(response => response.json())
         .then(AllHostings => {
           this.setState({ AllHostings });
-          console.log(this.state);
+          console.log(this.state.AllHostings);
+          let hostingArr = [];
+          this.state.AllHostings.map((h, i) => hostingArr.push(h.CompanyName));
+          this.setState({ hostingNames: hostingArr });
         });
     } catch (e) {
       console.error(e);
@@ -57,12 +62,33 @@ export default class App extends React.Component {
     });
   };
 
+  insertServerToDB = async server => {
+    const response = await fetch(`http://localhost:4000/servers/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(server)
+    });
+    if (response.status === 200) {
+      this.getAllServers();
+      console.log('added');
+    } else {
+      console.error('not deleted!');
+    }
+  };
+
   render() {
-    const { AllServers } = this.state;
+    const { AllServers, AllHostings, hostingNames } = this.state;
 
     return (
       <Container className=' App'>
         <ServerList onDelete={this.onDelete} AllServers={AllServers} />
+        <NewServer
+          onAdd={this.insertServerToDB}
+          hostings={AllHostings}
+          hostingNames={hostingNames}
+        />
       </Container>
     );
   }

@@ -16,13 +16,15 @@ export default class ServerList extends Component {
         />
       ));
     } else {
-      serverList = <h4 className='empty'>No servers to show</h4>;
+      serverList = <p className='empty'>No servers to show</p>;
     }
 
     return (
-      <Col xs={9}>
-        <p>{serverList}</p>
-      </Col>
+      <div>
+        <Col className='ServerList' xs={9}>
+          {serverList}
+        </Col>
+      </div>
     );
   }
 }

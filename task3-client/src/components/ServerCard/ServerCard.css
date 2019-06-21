@@ -1,0 +1,8 @@
+.server-active {
+  background-color: green;
+  border: black;
+}
+
+.server-not-active {
+  background-color: red;
+}

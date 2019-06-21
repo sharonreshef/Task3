@@ -11,7 +11,8 @@ let pool;
     database: 'serverdb',
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    dateStrings: true
   });
 })();
 
@@ -64,6 +65,7 @@ router.put('/:id', async (req, res) => {
   console.log(req.body, req.params);
   const { id } = req.params;
   const { status } = req.body;
+  console.log(req.body);
   try {
     const [results] = await pool.execute(
       `UPDATE servers SET server_status = ? WHERE id = ?;`,
