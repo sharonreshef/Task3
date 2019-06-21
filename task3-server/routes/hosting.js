@@ -15,4 +15,15 @@ let pool;
   });
 })();
 
+router.get('/', async (req, res) => {
+  try {
+    const [hosting, fields] = await pool.execute(`SELECT * FROM hosting`);
+    console.log(hosting);
+    res.json(hosting);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
