@@ -6,6 +6,8 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var hostingRouter = require('./routes/hosting');
+var serversRouter = require('./routes/servers');
 
 var app = express();
 app.use(cors());
@@ -18,5 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/hosting', hostingRouter);
+app.use('/servers', serversRouter);
 
 module.exports = app;
