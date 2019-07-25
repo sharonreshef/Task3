@@ -63,6 +63,7 @@ export default class App extends React.Component {
   };
 
   insertServerToDB = async server => {
+    console.log(server);
     const response = await fetch(`http://localhost:4000/servers/`, {
       method: 'POST',
       headers: {
@@ -86,7 +87,7 @@ export default class App extends React.Component {
         <ServerList onDelete={this.onDelete} AllServers={AllServers} />
         <NewServer
           onAdd={this.insertServerToDB}
-          hostings={AllHostings}
+          allHostings={AllHostings}
           hostingNames={hostingNames}
         />
       </Container>

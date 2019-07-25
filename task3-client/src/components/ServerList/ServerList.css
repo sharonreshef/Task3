@@ -1,3 +1,4 @@
 .ServerList {
   display: flex;
+  flex-wrap: wrap;
 }

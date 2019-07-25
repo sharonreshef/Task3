@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ServerCard from '../ServerCard/ServerCard';
-import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import './ServerList.css';
 
 export default class ServerList extends Component {
@@ -21,9 +21,7 @@ export default class ServerList extends Component {
 
     return (
       <div>
-        <Col className='ServerList' xs={9}>
-          {serverList}
-        </Col>
+        <Row className='ServerList'>{serverList}</Row>
       </div>
     );
   }

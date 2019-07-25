@@ -18,7 +18,9 @@ let pool;
 
 router.get('/', async (req, res) => {
   try {
-    const [servers, fields] = await pool.execute(`SELECT * FROM servers`);
+    const [servers, fields] = await pool.execute(`SELECT *
+    FROM servers
+    INNER JOIN hosting ON servers.HostingID = hosting.hostingID`);
     console.log(servers);
     res.json(servers);
   } catch (err) {
@@ -64,12 +66,12 @@ router.delete('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   console.log(req.body, req.params);
   const { id } = req.params;
-  const { status } = req.body;
+  const { active } = req.body;
   console.log(req.body);
   try {
     const [results] = await pool.execute(
       `UPDATE servers SET server_status = ? WHERE id = ?;`,
-      [status, id]
+      [active, id]
     );
     if (results.affectedRows) {
       res.status(200).send({ success: true });

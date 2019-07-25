@@ -13,9 +13,8 @@ export default class NewServer extends Component {
       show: false,
       ALIAS: '',
       IP: '',
-      //   Hosting: this.props.hostingNames[0],
-      hosting: 1,
-      hostingAsID: ''
+      hostingID: '',
+      hosting: ''
     };
   }
 
@@ -39,17 +38,17 @@ export default class NewServer extends Component {
   sendServerToDB = () => {
     console.log(this.props);
     const { onAdd } = this.props;
-    const { ALIAS, IP, Hosting } = this.state;
+    const { ALIAS, IP, hosting } = this.state;
     const server = {
       ALIAS,
       IP,
-      Hosting
+      hosting
     };
     onAdd(server);
     this.setState({
       ALIAS: '',
-      IP: ''
-      //   Hosting: this.props.hostingNames[0]
+      IP: '',
+      hosting: ''
     });
 
     console.log(JSON.stringify(server));
@@ -65,7 +64,12 @@ export default class NewServer extends Component {
 
   updateHostingValue(event) {
     console.log(event.target.value);
-    // this.setState({ hosting: event.target.value });
+    console.log(this.props.allHostings, this.props.hostingNames);
+    var hostingID = this.props.allHostings.filter(function(e) {
+      return e.CompanyName === event.target.value;
+    });
+    console.log(hostingID[0].hostingID);
+    this.setState({ hosting: hostingID[0].hostingID });
   }
 
   render() {
@@ -74,7 +78,7 @@ export default class NewServer extends Component {
         <Button
           variant='primary'
           onClick={this.handleShow}
-          className='create-server fixed-bottom'
+          className='create-server fixed-top'
         >
           Add new server
         </Button>
@@ -108,6 +112,7 @@ export default class NewServer extends Component {
                   as='select'
                   onChange={event => this.updateHostingValue(event)}
                 >
+                  <option defaultValue>Choose Hosting company</option>
                   {this.props.hostingNames.map((h, i) => (
                     <option>{h}</option>
                   ))}
